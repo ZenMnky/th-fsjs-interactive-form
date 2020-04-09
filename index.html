@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Register for Full Stack Conf</title>
-	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div class="container">
@@ -21,9 +22,11 @@
         
         <label for="name">Name:</label>
         <input type="text" id="name" name="user-name">
+        <span><label>Name field can not be blank</label></span>
         
-        <label for="mail">Email:</label>
-        <input type="email" id="mail" name="user-email">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="user-email">
+        <span>Email must be validly formatted, such as name@company.com</span>
         
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
@@ -33,7 +36,8 @@
           <option value="designer">Designer</option>          
           <option value="student">Student</option>
           <option value="other">Other</option>  
-        </select>           
+        </select>
+        <input type='text' id='other-title' value='Your Job Role'>
       </fieldset>
       
       <fieldset class="shirt">
@@ -119,17 +123,20 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
-        	  <input id="cc-num" name="user-cc-num" type="text">
+            <input id="cc-num" name="user-cc-num" type="text">
+            <span>Number must be between 13 and 16 digits</span>
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
             <input id="zip" name="user-zip" type="text"> 
+            <span>Number may only be 5 digits</span>
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
-            <input id="cvv" name="user-cvv" type="text"> 
+            <input id="cvv" name="user-cvv" type="text">
+            <span>Number may only be 3 digits</span> 
           </div>
 
           <label for="exp-month">Expiration Date:</label>

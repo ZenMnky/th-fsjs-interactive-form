@@ -71,7 +71,15 @@ legend {
 input[type="text"],
 input[type="email"],
 legend {
+	background: #f5f5f5;
+	border: 1px solid #e5e5e5;
+	padding: .8em .5em;
+	border-radius: 5px;
 	width: 100%;
+}
+
+span {
+	display: none;
 }
 
 label {
@@ -79,6 +87,7 @@ label {
 	display: block;
 	margin-bottom: .5em;
 }
+
 
 input,
 select {
