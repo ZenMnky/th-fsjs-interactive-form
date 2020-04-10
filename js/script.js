@@ -1,9 +1,11 @@
 /**
  * Treehouse FSJS Techdegree - Unit 3 Project
- * Interactive Form - JS
+ * Interactive Form - Vanilla JS
  * Developed by: Justin Hager (ZenMnky)
  *                Portland, OR - 2020.04
  */
+"use strict";
+
  //Basic Info
 const nameInput = document.querySelector("#name");
 const nameInputValue = nameInput.value;
@@ -16,6 +18,7 @@ const designThemeOptions = designThemeSelection.children;
 const shirtColorSelection = document.querySelector('select#color');
 const shirtColorOptions = shirtColorSelection.children;
 //Register for Activities
+const activitiesField = document.querySelector('fieldset.activities');
 const documentCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 //Payment Info
 const creditCardNumber = document.querySelector("#user-cc-num");
@@ -60,12 +63,6 @@ function createShirtThemeOption() {
 createShirtThemeOption();
 const tempOption = document.querySelector('#selectShirtThemeOption');
 
-
-/**
- * 
- * FORM VALIDATION
- * 
- */
 
  //VALIDATORS
  //gonna turn this section into objects
@@ -157,14 +154,19 @@ const shirtColorActions = {
     tempOption.removeAttribute('selected');
   }
 }
+/**
+ * 
+ * FORM VALIDATION
+ * 
+ */
 
- /**
-  * 
-  * EVENT HANDLING
-  * 
-  */
+//END FORM VALIDATION
 
-//BEHAVIORS
+
+/************************
+ * BEHAVIORS Section
+ * (aka Event Handling)
+ ************************/
 
 /**
  * JOB ROLE OTHER is selected:
@@ -194,7 +196,36 @@ jobRoleSelection.addEventListener('input', (e) => {
 })
 //END JOB ROLE OTHER event handler
 
-//T-Shirt Design Theme behavior
+//REGISTER FOR ACTIVITIES event handler
+
+//if checkbox is checked, disable other boxes with the same day and time
+//if checkbox is unchecked, enable other boxes with the same day and time
+activitiesField.addEventListener('change', (e) => {
+  const clickTarget = e.target;
+  const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time');
+  
+  for (let i=0; i<documentCheckboxes.length; i+=1){
+    const checkboxType = documentCheckboxes[i].getAttribute('data-day-and-time');
+    if(checkboxType === clickedDayAndTime && documentCheckboxes[i] !== clickTarget){
+      if(clickTarget.checked){
+        documentCheckboxes[i].disabled = true;
+      } else {
+        documentCheckboxes[i].disabled = false;
+      }
+    }
+
+  }
+  
+  
+
+  
+})
+
+
+//END REGISTER FOR ACTIVITIES event handler
+
+
+//T-Shirt Design Theme event handler
 designThemeSelection.addEventListener('input', (e) =>{
   const selection = e.target.selectedIndex;
   if (selection === 0){
@@ -206,7 +237,7 @@ designThemeSelection.addEventListener('input', (e) =>{
   }
 })
 
-//"Payment Info" section behavior
+//"Payment Info" section event handler
 //Display payment sections based on the payment option chosen in the select menu.
 const paymentMethodMenu = document.querySelector('select#payment');
 const paymentMethodOptions = paymentMethodMenu.children;
@@ -272,10 +303,12 @@ paymentMethodMenu.addEventListener('input', (e) => {
 
 })
 
-//END "Payment Info" section behavior
+//END "Payment Info" section event handler
+
+//END BEHAVIORS SECTION
 
 /**
- * Initial Calls
+ * INITIAL CALLS
  */
 //Hide shirts until a theme is selected
  shirtColorActions.hideAll();
@@ -284,11 +317,11 @@ paymentMethodMenu.addEventListener('input', (e) => {
 paymentMenuActions['creditCard']();
 paymentMethodMenu.selectedIndex = 1;
 
-//END Intial Calls
+//END INITIAL CALLS
 
 /**
  * COMMENTS 
  * For the behavior that does exist, it is functional, and so far no active bugs have been identified
- * Next: "Payment Info" section
- * Remaining: , Form validation, Form validation messages 
+ * Next: "Register for Activities” section - Day and Time Behavior
+ * Remaining: Validation with messages; Refactor
  */
