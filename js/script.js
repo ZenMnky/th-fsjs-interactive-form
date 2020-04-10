@@ -196,14 +196,23 @@ jobRoleSelection.addEventListener('input', (e) => {
 })
 //END JOB ROLE OTHER event handler
 
-//REGISTER FOR ACTIVITIES event handler
+//REGISTER FOR ACTIVITIES SECTION
 
-//if checkbox is checked, disable other boxes with the same day and time
-//if checkbox is unchecked, enable other boxes with the same day and time
+//counter
+let activityTotalCost = 0;
+//create HTML element to display Running Total In
+let registrationTotalSection = `<p> Total: $${activityTotalCost}</p>`;   
+//append to the end of the checkbox list
+activitiesField.insertAdjacentHTML('beforeend', registrationTotalSection);
+
 activitiesField.addEventListener('change', (e) => {
   const clickTarget = e.target;
   const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time');
+   
   
+  // Day and Time behavior
+    // if checkbox is checked, disable other boxes with the same day and time
+    // if checkbox is unchecked, enable other boxes with the same day and time
   for (let i=0; i<documentCheckboxes.length; i+=1){
     const checkboxType = documentCheckboxes[i].getAttribute('data-day-and-time');
     if(checkboxType === clickedDayAndTime && documentCheckboxes[i] !== clickTarget){
@@ -211,21 +220,32 @@ activitiesField.addEventListener('change', (e) => {
         documentCheckboxes[i].disabled = true;
       } else {
         documentCheckboxes[i].disabled = false;
-      }
+      } 
     }
-
   }
-  
-  
 
-  
+  // Running Total behavior
+    // As a user selects activities, a running total should display below the list of checkboxes.
+    //get the dollar value
+    let activityCost = Number.parseFloat(clickTarget.getAttribute('data-cost'));
+    //adjust the total
+    
+    if(clickTarget.checked){
+      activityTotalCost += activityCost;
+      console.log(activityTotalCost);
+    } else {
+      activityTotalCost -= activityCost;
+      console.log(activityTotalCost);
+    } 
+    
 })
 
 
-//END REGISTER FOR ACTIVITIES event handler
+
+//END REGISTER FOR ACTIVITIES SECTION
 
 
-//T-Shirt Design Theme event handler
+//T-SHIRT DESIGN THEME SECTION
 designThemeSelection.addEventListener('input', (e) =>{
   const selection = e.target.selectedIndex;
   if (selection === 0){
@@ -237,17 +257,19 @@ designThemeSelection.addEventListener('input', (e) =>{
   }
 })
 
-//"Payment Info" section event handler
-//Display payment sections based on the payment option chosen in the select menu.
+//END T-SHIRT DESIGN THEME SECTION
+
+//PAYMENT INFORMATION SECTION
+  //Display payment sections based on the payment option chosen in the select menu.
 const paymentMethodMenu = document.querySelector('select#payment');
 const paymentMethodOptions = paymentMethodMenu.children;
 const creditCardDiv = document.querySelector('div#credit-card');
 const payPalDiv = document.querySelector('div#paypal');
 const bitCoinDiv = document.querySelector('div#bitcoin');
 
-//Payment info display functions
-//When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
-//When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
+// PAYMENT INFO SECTION
+  //When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
+  //When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
 function displayPayPal(display){
   if (display === true){
     payPalDiv.style.display = 'block';
@@ -303,7 +325,7 @@ paymentMethodMenu.addEventListener('input', (e) => {
 
 })
 
-//END "Payment Info" section event handler
+//END PAYMENT INFO SECTION
 
 //END BEHAVIORS SECTION
 
@@ -322,6 +344,6 @@ paymentMethodMenu.selectedIndex = 1;
 /**
  * COMMENTS 
  * For the behavior that does exist, it is functional, and so far no active bugs have been identified
- * Next: "Register for Activities” section - Day and Time Behavior
+ * Next: Registration - Running Total
  * Remaining: Validation with messages; Refactor
  */
