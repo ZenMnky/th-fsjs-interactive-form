@@ -208,32 +208,83 @@ designThemeSelection.addEventListener('input', (e) =>{
 
 //"Payment Info" section behavior
 //Display payment sections based on the payment option chosen in the select menu.
-const paymentMethodOptions = document.querySelector('select#payment').children;
+const paymentMethodMenu = document.querySelector('select#payment');
+const paymentMethodOptions = paymentMethodMenu.children;
+const creditCardDiv = document.querySelector('div#credit-card');
+const payPalDiv = document.querySelector('div#paypal');
+const bitCoinDiv = document.querySelector('div#bitcoin');
 
-const paymentMenuActions = {
-  creditCard: () => {
-    
-  },
-  payPal: () => {
-
-  },
-  bitCoin: () => [
-
-  ]
-
-//The "Credit Card" payment option should be selected by default
+//Payment info display functions
 //When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
 //When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
+function displayPayPal(display){
+  if (display === true){
+    payPalDiv.style.display = 'block';
+  } else {
+    payPalDiv.style.display = 'none';
+  }
+}
+function displayCreditCard(display){
+  if (display === true){
+    creditCardDiv.style.display = 'block';
+  } else {
+    creditCardDiv.style.display = 'none';
+  }
+}
+function displayBitCoin(display){
+  if (display === true){
+    bitCoinDiv.style.display = 'block';
+  } else {
+    bitCoinDiv.style.display = 'none';
+  }
+}
+const paymentMenuActions = {
+  creditCard: () => {
+    displayCreditCard(true);
+    displayPayPal(false);
+    displayBitCoin(false);
+  },
+  payPal: () => {
+    displayCreditCard(false);
+    displayPayPal(true);
+    displayBitCoin(false);
+  },
+  bitCoin: () => {
+    displayCreditCard(false);
+    displayPayPal(false);
+    displayBitCoin(true);
+  }
+}
 
+paymentMethodMenu.addEventListener('input', (e) => {
+  const menuOption = e.target.selectedIndex;
+  switch (menuOption){
+    case 1: 
+      paymentMenuActions['creditCard']();
+      break;
+    case 2:
+      paymentMenuActions['payPal']();
+      break;
+    case 3:
+      paymentMenuActions['bitCoin']();
+      break;
+  }
 
-
+})
 
 //END "Payment Info" section behavior
 
 /**
- * Initial Functions
+ * Initial Calls
  */
-shirtColorActions.hideAll();
+//Hide shirts until a theme is selected
+ shirtColorActions.hideAll();
+
+//The "Credit Card" payment option should be selected by default
+paymentMenuActions['creditCard']();
+paymentMethodMenu.selectedIndex = 1;
+
+//END Intial Calls
 
 /**
  * COMMENTS 
