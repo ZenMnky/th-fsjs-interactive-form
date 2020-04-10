@@ -16,7 +16,7 @@ const designThemeOptions = designThemeSelection.children;
 const shirtColorSelection = document.querySelector('select#color');
 const shirtColorOptions = shirtColorSelection.children;
 //Register for Activities
-  //....
+const documentCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 //Payment Info
 const creditCardNumber = document.querySelector("#user-cc-num");
 const creditCardZip = document.querySelector("#user-zip");
@@ -33,8 +33,8 @@ const creditCardCvv = document.querySelector("#user-cvv");
  window.onload = () => {
     document.querySelector('input').focus();
     otherJobRoleText.style.display = 'none';    
-    shirtColorActions.hideAll();
 }
+
 
 /**
  * 
@@ -81,8 +81,17 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
   }
  
  //User must select at least one checkbox under the "Register for Activities" section of the form.
- // STILL NEEDS CODE
+ function isRegActivitesValid(){
+  let isChecked = 0;
+  for (let i = 0; i < documentCheckboxes.length; i += 1){
+    if (documentCheckboxes[i].checked === true){
+      isChecked +=1
+    }
+  }
 
+  return (isChecked > 0 ? true : false)
+
+ }
  //Credit Card field should only accept a number between 13 and 16 digits.
  function isCreditCardNumberValid(cardNumber){
     return /]d+{13,16}/i.test(cardNumber);
@@ -155,10 +164,7 @@ const shirtColorActions = {
   * 
   */
 
-// emailInput.addEventListener("input", createListener(isValidEmail));
-// nameInput.addEventListener("input", isNameValid(nameInputValue));
-// nameInput.addEventListener("blur", isNameValid(nameInputValue));
-
+//BEHAVIORS
 
 /**
  * JOB ROLE OTHER is selected:
@@ -200,10 +206,38 @@ designThemeSelection.addEventListener('input', (e) =>{
   }
 })
 
+//"Payment Info" section behavior
+//Display payment sections based on the payment option chosen in the select menu.
+const paymentMethodOptions = document.querySelector('select#payment').children;
+
+const paymentMenuActions = {
+  creditCard: () => {
+    
+  },
+  payPal: () => {
+
+  },
+  bitCoin: () => [
+
+  ]
+
+//The "Credit Card" payment option should be selected by default
+//When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
+//When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
+
+
+
+
+//END "Payment Info" section behavior
+
+/**
+ * Initial Functions
+ */
+shirtColorActions.hideAll();
 
 /**
  * COMMENTS 
- * For the behavior that does exist, it is functional, and so far no bugs have been found
- * Next: ”Register for Activities” section
- * Remaining: "Payment Info" section, Form validation, Form validation messages 
+ * For the behavior that does exist, it is functional, and so far no active bugs have been identified
+ * Next: "Payment Info" section
+ * Remaining: , Form validation, Form validation messages 
  */
