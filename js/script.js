@@ -232,13 +232,8 @@ activitiesField.addEventListener('change', (e) => {
     }
   }
 
-  /**
-   *  !! ⚠️This does not function as desired. ⚠️!! 
-   *    activityTotalCost value is updated as expected, but not displayed as expected
-   *    will come back to later :-/
-   */
-  // Running Total behavior
-    // As a user selects activities, a running total should display below the list of checkboxes.
+    // Running Total behavior
+      // As a user selects activities, a running total should display below the list of checkboxes.
     
     //select the area to enter text into
     const regTotalOutputTextArea = document.querySelector('#regTotalText');
