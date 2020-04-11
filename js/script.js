@@ -199,15 +199,20 @@ jobRoleSelection.addEventListener('input', (e) => {
 //REGISTER FOR ACTIVITIES SECTION
 
 //counter
-let activityTotalCost = 0;
-//create HTML element to display Running Total In
-let registrationTotalSection = `<p> Total: $${activityTotalCost}</p>`;   
-//append to the end of the checkbox list
-activitiesField.insertAdjacentHTML('beforeend', registrationTotalSection);
+
 
 activitiesField.addEventListener('change', (e) => {
   const clickTarget = e.target;
   const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time');
+
+
+  let activityTotalCost = 0;
+  //create HTML element to display Running Total In
+  
+  let registrationTotalSection = `<p> Total: $${activityTotalCost}</p>`;   
+  //append to the end of the checkbox list
+  activitiesField.insertAdjacentHTML('beforeend', registrationTotalSection);
+
    
   
   // Day and Time behavior
@@ -224,18 +229,23 @@ activitiesField.addEventListener('change', (e) => {
     }
   }
 
+  /**
+   *  !! This does not function as desired. !!
+   *    activityTotalCost value is updated as expected, but not displayed as expected
+   *    will come back to later :-/
+   */
   // Running Total behavior
     // As a user selects activities, a running total should display below the list of checkboxes.
     //get the dollar value
     let activityCost = Number.parseFloat(clickTarget.getAttribute('data-cost'));
-    //adjust the total
     
+    //adjust the total
     if(clickTarget.checked){
       activityTotalCost += activityCost;
-      console.log(activityTotalCost);
+      registrationTotalSection = `<p> test 1</p>`;   
     } else {
       activityTotalCost -= activityCost;
-      console.log(activityTotalCost);
+      registrationTotalSection = `<p> test 2</p>`;   
     } 
     
 })
@@ -260,7 +270,7 @@ designThemeSelection.addEventListener('input', (e) =>{
 //END T-SHIRT DESIGN THEME SECTION
 
 //PAYMENT INFORMATION SECTION
-  //Display payment sections based on the payment option chosen in the select menu.
+//Display payment sections based on the payment option chosen in the select menu.
 const paymentMethodMenu = document.querySelector('select#payment');
 const paymentMethodOptions = paymentMethodMenu.children;
 const creditCardDiv = document.querySelector('div#credit-card');
