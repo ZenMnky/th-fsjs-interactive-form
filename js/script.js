@@ -198,22 +198,25 @@ jobRoleSelection.addEventListener('input', (e) => {
 
 //REGISTER FOR ACTIVITIES SECTION
 
-//counter
 
+//Create a new section for the registration total & append to the end of the checkbox list
+const totalSection = document.createElement('div');
+totalSection.setAttribute('id', 'jobRoleTotalDiv');
 
+const regTotalParagraph = document.createElement('p');
+regTotalParagraph.setAttribute('id', 'regTotalText');
+regTotalParagraph.innerText = `Total: $0.00`;
+
+totalSection.appendChild(regTotalParagraph);
+activitiesField.appendChild(totalSection);
+
+//counter for registration total
+let activityTotalCost = 0;
+
+//handler
 activitiesField.addEventListener('change', (e) => {
   const clickTarget = e.target;
-  const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time');
-
-
-  let activityTotalCost = 0;
-  //create HTML element to display Running Total In
-  
-  let registrationTotalSection = `<p> Total: $${activityTotalCost}</p>`;   
-  //append to the end of the checkbox list
-  activitiesField.insertAdjacentHTML('beforeend', registrationTotalSection);
-
-   
+  const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time'); 
   
   // Day and Time behavior
     // if checkbox is checked, disable other boxes with the same day and time
@@ -230,22 +233,26 @@ activitiesField.addEventListener('change', (e) => {
   }
 
   /**
-   *  !! This does not function as desired. !!
+   *  !! ⚠️This does not function as desired. ⚠️!! 
    *    activityTotalCost value is updated as expected, but not displayed as expected
    *    will come back to later :-/
    */
   // Running Total behavior
     // As a user selects activities, a running total should display below the list of checkboxes.
+    
+    //select the area to enter text into
+    const regTotalOutputTextArea = document.querySelector('#regTotalText');
+    
     //get the dollar value
     let activityCost = Number.parseFloat(clickTarget.getAttribute('data-cost'));
     
     //adjust the total
     if(clickTarget.checked){
       activityTotalCost += activityCost;
-      registrationTotalSection = `<p> test 1</p>`;   
+      regTotalOutputTextArea.innerText = `Total: $${activityTotalCost}`;   
     } else {
       activityTotalCost -= activityCost;
-      registrationTotalSection = `<p> test 2</p>`;   
+      regTotalOutputTextArea.innerText = `Total: $${activityTotalCost}`;   
     } 
     
 })
