@@ -101,7 +101,7 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
 
  //Name field can't be blank.
  function isNameValid(name){
-    return /[a-z]+/i.test(name);
+    return /^[a-z]+$/i.test(name);
 }
 
  //Email field must be a validly formatted e-mail address
