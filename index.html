@@ -15,18 +15,18 @@
       <h1>Full Stack Conf</h1>
     </header>
 
-    <form action="index.html" method="post" novalidate>
+    <form id="registrationForm" action="index.html" method="post" novalidate>
               
       <fieldset>         
         <legend>Basic Info</legend>
         
         <label for="name">Name:</label>
         <input type="text" id="name" name="user-name">
-        <span><label>Name field can not be blank</label></span>
+        <span id="name-invalid">Name field can not be blank</span>
         
         <label for="email">Email:</label>
         <input type="email" id="email" name="user-email">
-        <span>Email must be validly formatted, such as name@company.com</span>
+        <span id="email-invalid">Email must be validly formatted, such as name@company.com</span>
         
         <label for="title">Job Role</label>
         <select id="title" name="user-title">
@@ -106,7 +106,7 @@
             <input type="checkbox" name="npm" data-day-and-time="Wednesday 1pm-4pm" data-cost="100"> 
             npm Workshop — Wednesday 1pm-4pm, $100
           </label>
-                  	
+          <span id="activities-invalid">Select at least one activity</span>                  	
       </fieldset>
       <fieldset>
         <legend>Payment Info</legend>
@@ -124,19 +124,19 @@
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
             <input id="cc-num" name="user-cc-num" type="text">
-            <span>Number must be between 13 and 16 digits</span>
+            <span id='cc-num-invalid'>Number must be between 13 and 16 digits</span>
           </div>
-
+          
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
             <input id="zip" name="user-zip" type="text"> 
-            <span>Number may only be 5 digits</span>
+            <span id='zip-invalid'>Number may only be 5 digits</span>
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
             <input id="cvv" name="user-cvv" type="text">
-            <span>Number may only be 3 digits</span> 
+            <span id='cvv-invalid'>Number may only be 3 digits</span> 
           </div>
 
           <label for="exp-month">Expiration Date:</label>

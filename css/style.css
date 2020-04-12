@@ -80,6 +80,13 @@ legend {
 
 span {
 	display: none;
+	color: red;
+	margin-bottom: 1.125em;
+}
+
+input[type="text"].invalid ,
+input[type="email"].invalid  {
+	border: 3px solid red;
 }
 
 label {

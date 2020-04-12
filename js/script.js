@@ -8,7 +8,7 @@
 
  //Basic Info
 const nameInput = document.querySelector("#name");
-const nameInputValue = nameInput.value;
+let nameInputValue = nameInput.value;
 const emailInput = document.querySelector("#email");
 const jobRoleSelection = document.querySelector('select#title');
 const otherJobRoleText = document.querySelector('input#other-title')
@@ -21,9 +21,17 @@ const shirtColorOptions = shirtColorSelection.children;
 const activitiesField = document.querySelector('fieldset.activities');
 const documentCheckboxes = document.querySelectorAll('input[type="checkbox"]');
 //Payment Info
-const creditCardNumber = document.querySelector("#user-cc-num");
-const creditCardZip = document.querySelector("#user-zip");
-const creditCardCvv = document.querySelector("#user-cvv");
+const creditCardNumber = document.querySelector("input#cc-num");
+const creditCardZip = document.querySelector("input#zip");
+const creditCardCvv = document.querySelector("input#cvv");
+//Validation Error Message Loations
+const nameInvalidMsg = document.querySelector('span#name-invalid');
+const emailInvalidMsg = document.querySelector('span#email-invalid');
+const activitesInvalidMsg = document.querySelector('span#activities-invalid');
+const ccNumInvalidMsg = document.querySelector('span#cc-num-invalid');
+const ccZipInvalidMsg = document.querySelector('span#zip-invalid');
+const cvvInvalidMsg = document.querySelector('span#cvv-invalid');
+
 
 /**
  * ON PAGE LOAD
@@ -65,7 +73,7 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
 
 
  //VALIDATORS
- //gonna turn this section into objects
+ //gonna turn this section into an array of objects...maybe
 
  //Name field can't be blank.
  function isNameValid(name){
@@ -73,7 +81,7 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
 }
 
  //Email field must be a validly formatted e-mail address
- function isValidEmail(email) {
+ function isEmailValid(email) {
     return /^[^@]+\@[^@.]+\.[a-z]+$/i.test(email);
   }
  
@@ -89,19 +97,71 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
   return (isChecked > 0 ? true : false)
 
  }
+
  //Credit Card field should only accept a number between 13 and 16 digits.
  function isCreditCardNumberValid(cardNumber){
-    return /]d+{13,16}/i.test(cardNumber);
+    return /\d+{13, 16}/.test(cardNumber);
  }
  
  //The Zip Code field should accept a 5-digit number.
  function isZipValid(zip){
-     return /\d+{5}/.test(zip);
+     return /\d{5}/.test(zip);
  }
 
  //The CVV should only accept a number that is exactly 3 digits long.
  function isCvvValid(cvv){
-    return /\d+{3}/.test(cvv);
+    return /\d{3}/.test(cvv);
+}
+
+function validateCcNum() {
+  const ccNum = creditCardNumber.value;
+  if (isCreditCardNumberValid(ccNum)){
+    creditCardNumber.classList.remove('invalid');
+    ccNumInvalidMsg.style.display = 'none';
+    return true;
+  } else {
+    creditCardNumber.classList.add('invalid');
+    ccNumInvalidMsg.style.display = 'block';
+    return false;
+  }
+}
+function validateZip(){
+  const zip = creditCardZip.value;
+  if (isZipValid(zip)){
+    creditCardZip.classList.remove('invalid');
+    ZipInvalidMsg.style.display = 'none';
+    return true;
+  } else {
+    creditCardZip.classList.add('invalid');
+    ccZipInvalidMsg.style.display = 'block';
+    return false;
+  }
+}
+
+function validateCvv(){
+  const cvv = creditCardCvv.value;
+  if (isCvvValid(cvv)){
+    creditCardCvv.classList.remove('invalid');
+    cvvInvalidMsg.style.display = 'none';
+    return true;
+  } else {
+    creditCardCvv.classList.add('invalid');
+    cvvInvalidMsg.style.display = 'block';
+    return false;
+  }
+}
+
+
+function validateCreditCardInput() {
+  validateCcNum();
+  validateZip(); 
+  validateCvv();
+
+  if( validateCcNum() && validateZip() && validateCvv()){
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
@@ -160,6 +220,65 @@ const shirtColorActions = {
  * 
  */
 
+//VALIDATION FUNCTIONS
+
+//name validation function
+  function validateName() {
+    nameInputValue = nameInput.value;
+    if(isNameValid(nameInputValue) === true){
+      nameInput.classList.remove('invalid');
+      nameInvalidMsg.style.display = 'none';
+      return true;
+    } else {
+      nameInput.classList.add('invalid');
+      nameInvalidMsg.style.display = 'block';
+      return false;
+    };
+  }
+
+//email validation function
+  function validateEmail() {
+    let emailInputValue = emailInput.value;
+    if(isEmailValid(emailInputValue) === true){
+      emailInput.classList.remove('invalid');
+      emailInvalidMsg.style.display = 'none';
+      return true;
+    } else {
+      emailInput.classList.add('invalid');
+      emailInvalidMsg.style.display = 'block';
+      return false;
+    };
+  }
+
+//activites section validation function
+function validateActivites() {
+    if (isRegActivitesValid() === true){
+      activitiesField.classList.remove('invalid');
+      activitesInvalidMsg.style.display = 'none'; 
+      return true;     
+    } else {
+      activitiesField.classList.add('invalid');
+      activitesInvalidMsg.style.display = 'block';    
+      return false;
+    }
+}
+
+// Form Validation with Submission request
+  // When for is called to be submitted, validate appropriate fields.
+  // If fields are valid, allow submission. Else, prevent submission.
+const regForm = document.querySelector('#registrationForm');
+regForm.addEventListener('submit', (e)=>{
+  
+  if (!validateName()){e.preventDefault();}
+  if (!validateEmail()){e.preventDefault();}
+  if (!validateActivites()){e.preventDefault();}
+  if (!paymentMethodMenu.selectedIndex >=1){e.preventDefault();}
+  //if credit card is selected as payment method, fire relevant validaton
+  if (paymentMethodMenu.selectedIndex === 1){
+    if (!validateCreditCardInput()){e.preventDefault();}  
+  }
+})
+
 //END FORM VALIDATION
 
 
@@ -213,7 +332,7 @@ activitiesField.appendChild(totalSection);
 //counter for registration total
 let activityTotalCost = 0;
 
-//handler
+//registration section handler
 activitiesField.addEventListener('change', (e) => {
   const clickTarget = e.target;
   const clickedDayAndTime = clickTarget.getAttribute('data-day-and-time'); 
@@ -257,7 +376,7 @@ activitiesField.addEventListener('change', (e) => {
 //END REGISTER FOR ACTIVITIES SECTION
 
 
-//T-SHIRT DESIGN THEME SECTION
+//T-SHIRT DESIGN THEME SECTION 👕
 designThemeSelection.addEventListener('input', (e) =>{
   const selection = e.target.selectedIndex;
   if (selection === 0){
@@ -271,7 +390,7 @@ designThemeSelection.addEventListener('input', (e) =>{
 
 //END T-SHIRT DESIGN THEME SECTION
 
-//PAYMENT INFORMATION SECTION
+//PAYMENT INFORMATION SECTION 💸
 //Display payment sections based on the payment option chosen in the select menu.
 const paymentMethodMenu = document.querySelector('select#payment');
 const paymentMethodOptions = paymentMethodMenu.children;
@@ -318,12 +437,20 @@ const paymentMenuActions = {
     displayCreditCard(false);
     displayPayPal(false);
     displayBitCoin(true);
+  },
+  other: () => {
+    displayCreditCard(false);
+    displayPayPal(false);
+    displayBitCoin(false);
   }
 }
 
 paymentMethodMenu.addEventListener('input', (e) => {
   const menuOption = e.target.selectedIndex;
   switch (menuOption){
+    case 0:
+      paymentMenuActions['other']();
+      break;
     case 1: 
       paymentMenuActions['creditCard']();
       break;
@@ -339,6 +466,10 @@ paymentMethodMenu.addEventListener('input', (e) => {
 
 //END PAYMENT INFO SECTION
 
+//VALIDATION EVENT HANDLES
+// nameInput.addEventListener('blur', validateName());
+// emailInput.addEventListener('blur', validateEmail());
+
 //END BEHAVIORS SECTION
 
 /**
@@ -351,11 +482,22 @@ paymentMethodMenu.addEventListener('input', (e) => {
 paymentMenuActions['creditCard']();
 paymentMethodMenu.selectedIndex = 1;
 
+//Disable Menu Options
+//'Select Theme'
+designThemeSelection[0].setAttribute('disabled', 'true');
+//'Select T-Shirt Name'
+shirtColorSelection[0].setAttribute('disabled', 'true');
+//'Select Payment Method'
+paymentMethodMenu[0].setAttribute('disabled', 'true');
+
 //END INITIAL CALLS
 
 /**
  * COMMENTS 
  * For the behavior that does exist, it is functional, and so far no active bugs have been identified
- * Next: Registration - Running Total
- * Remaining: Validation with messages; Refactor
+ * Next: 
+ * Remaining: 
+ * - Refactor/Clean-up, including code comments
+ * - Celebrate 🌞🕺🌴🌻
+ * 
  */
