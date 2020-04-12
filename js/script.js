@@ -3,13 +3,36 @@
  * Interactive Form - Vanilla JS
  * Developed by: Justin Hager (ZenMnky)
  *                Portland, OR - 2020.04
+ * 
+ * Aiming to acheive "Exceeds Expectations" standards
+ * - Focus on the first field ✅
+ * - Job Role Section behavrior ✅
+ * - T-Shirt Section: 
+ * - - no options appear until a theme is selected ✅
+ * - - - “Please select a T-shirt theme” shows, when color drop down menu is visible (you'll need to change the display setting to verify this [search for: shirtColorSelection.style.display = 'none';]) ✅
+ * - - Color dropdown menu is hidden until shirt design is selected ✅
+ * - Activity Registration: 
+ * - - Can't select overlaping times ✅
+ * - - Total cost dynamicaly displayed ✅
+ * - Payment Display
+ * - - cc is default ✅
+ * - - option matches displayed text/input ✅
+ * - - sections are shown/hidden accordingly ✅
+ * - Form Validation (name, email, >= 1 checkbox, cc) ✅
+ * - Validation Messages
+ * - - On Submission ✅
+ * - - at least one error message in real time, before the form is submitted: Name & email ✅
+ * - - at least one error message that changes depending on the error: email ✅
  */
+
+
+
 "use strict";
 
  //Basic Info
-const nameInput = document.querySelector("#name");
+const nameInput = document.querySelector("input#name");
 let nameInputValue = nameInput.value;
-const emailInput = document.querySelector("#email");
+const emailInput = document.querySelector("input#email");
 const jobRoleSelection = document.querySelector('select#title');
 const otherJobRoleText = document.querySelector('input#other-title')
 //T-Shirt Info
@@ -26,7 +49,8 @@ const creditCardZip = document.querySelector("input#zip");
 const creditCardCvv = document.querySelector("input#cvv");
 //Validation Error Message Loations
 const nameInvalidMsg = document.querySelector('span#name-invalid');
-const emailInvalidMsg = document.querySelector('span#email-invalid');
+const emailInvalidFormatMsg = document.querySelector('span#email-invalid-format');
+const emailInvalidBlankMsg = document.querySelector('span#email-invalid-blank');
 const activitesInvalidMsg = document.querySelector('span#activities-invalid');
 const ccNumInvalidMsg = document.querySelector('span#cc-num-invalid');
 const ccZipInvalidMsg = document.querySelector('span#zip-invalid');
@@ -100,7 +124,7 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
 
  //Credit Card field should only accept a number between 13 and 16 digits.
  function isCreditCardNumberValid(cardNumber){
-    return /\d+{13, 16}/.test(cardNumber);
+    return /\d{13,16}/.test(cardNumber);
  }
  
  //The Zip Code field should accept a 5-digit number.
@@ -129,7 +153,7 @@ function validateZip(){
   const zip = creditCardZip.value;
   if (isZipValid(zip)){
     creditCardZip.classList.remove('invalid');
-    ZipInvalidMsg.style.display = 'none';
+    ccZipInvalidMsg.style.display = 'none';
     return true;
   } else {
     creditCardZip.classList.add('invalid');
@@ -237,16 +261,25 @@ const shirtColorActions = {
   }
 
 //email validation function
+  //if blank, display blank message
+  //otherwise, check the formatiing. if formatting is not valid, invalid format message
   function validateEmail() {
     let emailInputValue = emailInput.value;
-    if(isEmailValid(emailInputValue) === true){
-      emailInput.classList.remove('invalid');
-      emailInvalidMsg.style.display = 'none';
-      return true;
-    } else {
-      emailInput.classList.add('invalid');
-      emailInvalidMsg.style.display = 'block';
-      return false;
+    if (emailInputValue === ''){
+        emailInput.classList.add('invalid');
+        emailInvalidBlankMsg.style.display = 'block';
+        emailInvalidFormatMsg.style.display = 'none';
+        return false;
+    } else if (isEmailValid(emailInputValue)){
+        emailInput.classList.remove('invalid');
+        emailInvalidFormatMsg.style.display = 'none';
+        emailInvalidBlankMsg.style.display = 'none';
+        return true;
+    } else if (!isEmailValid(emailInputValue)) {
+        emailInput.classList.add('invalid');
+        emailInvalidFormatMsg.style.display = 'block';
+        emailInvalidBlankMsg.style.display = 'none';
+        return false;
     };
   }
 
@@ -382,8 +415,10 @@ designThemeSelection.addEventListener('input', (e) =>{
   if (selection === 0){
     shirtColorActions.hideAll();
   } else if (selection === 1){
+    shirtColorSelection.style.display = 'block';
     shirtColorActions.showOnlyPuns();
   } else if (selection === 2){
+    shirtColorSelection.style.display = 'block';
     shirtColorActions.showOnlyHeartJs();
   }
 })
@@ -467,14 +502,16 @@ paymentMethodMenu.addEventListener('input', (e) => {
 //END PAYMENT INFO SECTION
 
 //VALIDATION EVENT HANDLES
-// nameInput.addEventListener('blur', validateName());
-// emailInput.addEventListener('blur', validateEmail());
+nameInput.addEventListener('blur', validateName);
+emailInput.addEventListener('blur', validateEmail);
 
 //END BEHAVIORS SECTION
 
 /**
  * INITIAL CALLS
  */
+//Hide color menu until a theme is selected
+ shirtColorSelection.style.display = 'none';
 //Hide shirts until a theme is selected
  shirtColorActions.hideAll();
 
@@ -490,14 +527,18 @@ shirtColorSelection[0].setAttribute('disabled', 'true');
 //'Select Payment Method'
 paymentMethodMenu[0].setAttribute('disabled', 'true');
 
+
 //END INITIAL CALLS
 
 /**
  * COMMENTS 
- * For the behavior that does exist, it is functional, and so far no active bugs have been identified
- * Next: 
+ * It works 😄. It's not fully DRY...a bit damp...but that is not a stated requirement of this project 😅
+ * Identified bug(s): N/A
+ *  
+ *  
+ * Next: Celebrate 🌞🕺🌴🌻
  * Remaining: 
- * - Refactor/Clean-up, including code comments
+ * - Refactor/Clean-up (DRY) [optonal]
  * - Celebrate 🌞🕺🌴🌻
  * 
  */
