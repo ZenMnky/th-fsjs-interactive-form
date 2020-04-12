@@ -99,9 +99,9 @@ const tempOption = document.querySelector('#selectShirtThemeOption');
  //VALIDATORS
  //gonna turn this section into an array of objects...maybe
 
- //Name field can't be blank.
+ //Name field may not be blank, nor contain numbers
  function isNameValid(name){
-    return /^[a-z]+$/i.test(name);
+    return /^\D+$/i.test(name);
 }
 
  //Email field must be a validly formatted e-mail address
